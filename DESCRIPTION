@@ -1,0 +1,34 @@
+Package: plotUMAPly
+Type: Package
+Title: create static-but-interactive webpages with plotly
+Description: Plotly plots (particularly 3D embeddings) are remarkably handy,
+             but can be remarkably onerous to customize. Useful color palettes, 
+             swappable groupings, a moderate number of swappable dimensions, 
+             and linked selections are all somewhat fiddly. plotUMAPly started
+             out as a single function and slowly grew into something which made
+             more sense as a package. And so here we are.  
+Version: 0.1.0
+Date: 2022-08-25
+Authors@R: person("Ember", "Tokarski", role=c("aut", "cre"), email="trichelab@gmail.com")
+Author: Ember Tokarski [aut, cre]
+Maintainer: Ember Tokarski <trichelab@gmail.com>
+URL: https://github.com/trichelab/plotUMAPly
+BugReports: https://github.com/trichelab/plotUMAPly/issues
+License: MIT + file LICENSE
+Depends:
+    R (>= 3.0.0)
+Imports:
+    plotly
+Suggests:
+    covr,
+    crosstalk,
+    LDAvis,
+    Polychrome,
+    RcppML,
+    testthat,
+    Seurat,
+    SingleCellExperiment,
+    uwot
+Encoding: UTF-8
+RoxygenNote: 7.2.1
+Roxygen: list(markdown = TRUE)
