@@ -40,6 +40,6 @@ plotUMAPly(
 TODO
 \enumerate{
 \item add lines for observation-observation (cell) interactions (e.g. ligands)
-\item add switching capability (data points / colors) (Ember has done this now)
+\item add hooks for crosstalk so two embeddings can be shown at the same time
 }
 }

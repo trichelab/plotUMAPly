@@ -19,12 +19,16 @@ grabData <- function(x, use="UMAP", color_by="study", label_by=NULL, dims=1:6) {
 
   } else { 
   
-    switch(dat$what, 
-           nmf=cbind(dat$rd, dat$cd),
-           data.frame=cbind(dat$rd, dat$cd),
-           SingleCellExperiment=cbind(dat$rd, dat$cd),
-           Seurat=cbind(dat$rd, dat$cd))
+    rd <- switch(dat$what, 
+                 nmf=cbind(dat$rd, dat$cd),
+                 data.frame=cbind(dat$rd, dat$cd),
+                 SingleCellExperiment=cbind(dat$rd, dat$cd),
+                 Seurat=cbind(dat$rd, dat$cd))
 
   }
+
+  rd$label <- paste0(rownames(rd), "(", rd[, color_by[1]], ")")
+  if (!is.null(label_by)) rd$label <- factor(cd[, label_by])
+  return(rd)
 
 }
