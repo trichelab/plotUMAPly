@@ -36,31 +36,27 @@
 #'
 #' which also happens to be where choosePalette retrieves cached palettes from.
 #'
+#' @seealso getPalette
+#'
 #' @export
+#'
 choosePalette <- function(x, static=TRUE, shuffle=FALSE, ...) { 
 
-  x <- factor(x)
+  x <- factor(x) 
   K <- nlevels(x)
 
-  if (!static | K > 100) {
+  if (static & K <= 100) {
+
+    pal <- getPalette(K, shuffle=shuffle, ...) 
+   
+  } else { 
 
     message("Loading Polychrome...")
     require(Polychrome)
     message("Generating a new palette with ", K, " colors...")
     pal <- createPalette(K, ...) 
+    if (shuffle) pal <- pal[sample(seq_along(pal), K)] 
 
-  } else { 
-
-    message("Loading pre-generated palette with ", K, " colors...")
-    if (!exists("defaultPalettes")) {
-      data("defaultPalettes", package="plotUMAPly")
-    }
-    pal <- defaultPalettes[[K]]
-
-  }
- 
-  if (shuffle) {
-    pal <- pal[sample(seq_along(pal), K)] 
   }
 
   names(pal) <- levels(x)

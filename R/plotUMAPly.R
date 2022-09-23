@@ -48,7 +48,7 @@ plotUMAPly <- function(x, use="UMAP", color_by="study", label_by=NULL, dims=1:3,
 
   rd <- cbind(rd, cd) # in case we want to switch
  
-  pal <- choosePalette(nlevels(rd$group), static=static, shuffle=shuffle)
+  pal <- choosePalette(rd$group, static=static, shuffle=shuffle)
   names(pal) <- levels(rd$group)
   
   p <- plot_ly(rd, 
@@ -67,6 +67,10 @@ plotUMAPly <- function(x, use="UMAP", color_by="study", label_by=NULL, dims=1:3,
   # 
   # choose(6, 3) * factorial(3) * 6 == 720 traces to generate 
   #
+
+  # start splicing from line 124 or thereabouts here
+
+
   # The one saving grace is that only a single trace is active at a time...
   #
   p <- layout(add_markers( p,
@@ -118,7 +122,8 @@ plotUMAPly.ember <- function(x, use = "NMF_UMAP", color_by = "study", label_by =
   seed <- c("#ff0000", "#0000ff", "#00ff00")
   pal <- createPalette(palettelevels, seed, prefix = "color")
   names(pal) <- levels(rd$group)
-  
+ 
+
   #list of booleans for trace visibility toggle
   visibility_list <- as.list(rep(FALSE, palettelevels))
   #counter for tracking where visibility needs to change 
@@ -162,10 +167,7 @@ plotUMAPly.ember <- function(x, use = "NMF_UMAP", color_by = "study", label_by =
                          hoverinfo = "text", 
                          type = "scatter3d",
                          color = rd$group,
-                         colors = pal,
-                         visible = (item == 1))
-    
-
+                         colors = pal)
   }
   
   #######

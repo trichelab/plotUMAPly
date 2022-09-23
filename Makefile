@@ -6,7 +6,7 @@ doc:
 
 test:
 	R CMD INSTALL --install-tests .
-	R --slave -e 'Sys.setenv(NOT_CRAN="true"); library(testthat); setwd(file.path(.libPaths()[1], "plotUMAPly", "tests")); system.time(test_check("plotUMAPly", filter="${file}", reporter=ifelse(nchar("${r}"), "${r}", "summary")))'
+	R --slave -e 'Sys.setenv(NOT_CRAN="true"); library(testthat); setwd(file.path(.libPaths()[1], "plotfly", "tests")); system.time(test_check("plotfly", filter="${file}", reporter=ifelse(nchar("${r}"), "${r}", "summary")))'
 
 deps:
 	R --slave -e 'install.packages(c("codetools", "testthat", "devtools", "roxygen2", "knitr"), repo="http://cran.at.r-project.org", lib=ifelse(nchar(Sys.getenv("R_LIB")), Sys.getenv("R_LIB"), .libPaths()[1]))'
@@ -15,8 +15,8 @@ build: doc
 	R CMD build .
 
 check: build
-	-R CMD check --as-cran plotUMAPly_$(VERSION).tar.gz
-	rm -rf plotUMAPly.Rcheck/
+	-R CMD check --as-cran plotfly_$(VERSION).tar.gz
+	rm -rf plotfly.Rcheck/
 
 man: doc
 	R CMD Rd2pdf man/ --force

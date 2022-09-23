@@ -47,3 +47,6 @@ data("defaultPalettes", package="plotUMAPly")
 
 which also happens to be where choosePalette retrieves cached palettes from.
 }
+\seealso{
+getPalette
+}
