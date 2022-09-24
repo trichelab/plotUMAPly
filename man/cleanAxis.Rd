@@ -2,25 +2,25 @@
 % Please edit documentation in R/cleanAxis.R
 \name{cleanAxis}
 \alias{cleanAxis}
-\title{helper function for plotUMAPly}
+\title{helper function for plotfly}
 \usage{
-cleanAxis(i, embed = "axis")
+cleanAxis(i, dimcols)
 }
 \arguments{
 \item{i}{the axis (required; usually 1, 2, or 3)}
 
-\item{embed}{the common element name or stub (default is "axis")}
+\item{dimcols}{the dimension column names from the user (or their data.frame)}
 }
 \value{
 \if{html}{\out{<div class="sourceCode">}}\preformatted{   a list (see Details) 
 }\if{html}{\out{</div>}}
 }
 \description{
-Much of the time, we don't want tick marks on the axes of our 3D plots.
+Most of the time, we don't want tick marks on the axes of our 3D plots.
 This function solves that problem so we don't have to think about it.
 }
 \details{
 The returned list has elements 'title' (a character string), and also
-'showticklabels', 'zeroline', 'showline', and 'showgrid' (all FALSE).
+'showticklabels', 'zeroline', 'showline', and 'showgrid' (zeroline is TRUE).
 This is then passed to plotly to generate a clean set of axis stylings.
 }

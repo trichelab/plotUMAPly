@@ -4,14 +4,7 @@
 \alias{plotdfly}
 \title{barebones dropdown maker for a data.frame turned into a plot_ly 3D scatter}
 \usage{
-plotdfly(
-  rd,
-  dimcols = NULL,
-  groupcols = c("group"),
-  dimlabel = "dim",
-  verbose = TRUE,
-  ...
-)
+plotdfly(rd, dimcols = NULL, groupcols = c("group"), ...)
 }
 \arguments{
 \item{rd}{an R data.frame}
@@ -19,10 +12,6 @@ plotdfly(
 \item{dimcols}{the dimension columns in the data frame (if NULL, 1:3)}
 
 \item{groupcols}{the names of grouping/coloring columns in the data frame}
-
-\item{dimlabel}{stub for the dimension axis labels ("dim")}
-
-\item{verbose}{be verbose? (TRUE)}
 
 \item{...}{parameters to pass to getPalette()}
 }
@@ -34,12 +23,13 @@ plotdfly(
 barebones dropdown maker for a data.frame turned into a plot_ly 3D scatter
 }
 \examples{
+
 if (FALSE) { 
+
   library(singlet)
   get_pbmc3k_data() \%>\% NormalizeData \%>\% RunNMF \%>\% AnnotateNMF -> pbmc3k
   covs <- data.frame(cell_type = as.character(pbmc3k@meta.data$cell_type))
-  lineages <- c(
-                "Naive CD4 T"="lymphoid", 
+  lineages <- c("Naive CD4 T"="lymphoid", 
                 "Memory CD4 T"="lymphoid",
                 "CD8 T"="lymphoid",
                 "B"="lymphoid",
@@ -47,8 +37,7 @@ if (FALSE) {
                 "Platelet"="myeloid",
                 "CD14+ Mono"="myeloid",
                 "FCGR3A+ Mono"="myeloid",
-                "DC"="myeloid" # arguably
-               )
+                "DC"="myeloid") # arguably
   covs$lineage <- lineages[covs$cell_type]
   rownames(covs) <- colnames(pbmc3k)
   embeddings <- pbmc3k@reductions$nmf@cell.embeddings
@@ -56,6 +45,7 @@ if (FALSE) {
   subembed <- embeddings[, c("NMF_11", "NMF_7", "NMF_15")]
   rd <- cbind(subembed, covs)
   plotdfly(rd, groupcols=c("cell_type","lineage"))
+
 }
 
 }

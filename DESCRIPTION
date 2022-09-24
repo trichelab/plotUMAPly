@@ -17,17 +17,18 @@ BugReports: https://github.com/trichelab/plotfly/issues
 License: MIT + file LICENSE
 Depends:
     R (>= 3.0.0),
+    crosstalk,
     plotly
 Suggests:
     covr,
-    crosstalk,
+    jsonlite, 
     LDAvis,
     Polychrome,
     RcppML,
-    singlet,
-    testthat,
     Seurat,
     SingleCellExperiment,
+    singlet,
+    testthat,
     uwot
 Encoding: UTF-8
 RoxygenNote: 7.2.1

@@ -64,8 +64,12 @@ choosePalette <- function(x, static=TRUE, shuffle=FALSE, seed=c("#ff0000", "#000
     pal <- createPalette(K, seed=seed, ...)[seq_len(K)] # weird bug for K < 4
   }
 
-  if (shuffle) pal <- pal[sample(seq_along(pal), K)] 
-  if (hasNames) names(pal) <- levels(x)
+  if (shuffle) {
+    orignames <- names(pal)
+    pal <- pal[sample(seq_along(pal), K)] 
+    names(pal) <- orignames
+  }
+  if (hasNames) names(pal) <- levels(factor(x))
   return(pal)
 
 }
