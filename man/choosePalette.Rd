@@ -4,14 +4,22 @@
 \alias{choosePalette}
 \title{choose a predefined palette with a factor's worth of levels, or create one}
 \usage{
-choosePalette(x, static = TRUE, shuffle = FALSE, ...)
+choosePalette(
+  x,
+  static = TRUE,
+  shuffle = FALSE,
+  seed = c("#ff0000", "#0000ff", "#00ff00"),
+  ...
+)
 }
 \arguments{
-\item{x}{a factor (will be converted to one if it isn't)}
+\item{x}{an integer (colors) or factor-like grouping with levels}
 
 \item{static}{use a saved static palette if available? (TRUE)}
 
 \item{shuffle}{shuffle the default color palette (if static)? (FALSE)}
+
+\item{seed}{if static == FALSE, seed colors to use? (see Details)}
 
 \item{...}{params passed to Polychrome::createPalette if !static}
 }
@@ -36,17 +44,21 @@ Please see Polychrome::createPalette for more information on these.
 
 The default palettes were created as follows:
 
+library(parallel)
 library(Polychrome)
-seed <- c("#ff0000", "#0000ff", "#00ff00")
-newpal <- function(x) createPalette(x, seedcolors=seed, prefix="color")
-defaultPalettes <- lapply(1:100, newpal)
+sz <- seq_len(100)
+names(sz) <- paste0("paletteOfSize", sz)
+defaultPalettes <- mclapply(sz, choosePalette, static=FALSE, prefix="color")
 
-These are the same palettes available via
+Even when parallelized, this takes a few minutes, since Polychrome samples a
+large space of colors for each size. These are the same palettes available by
 
-data("defaultPalettes", package="plotUMAPly")
+data("defaultPalettes")
 
 which also happens to be where choosePalette retrieves cached palettes from.
 }
 \seealso{
+Polychrome::createPalette
+
 getPalette
 }

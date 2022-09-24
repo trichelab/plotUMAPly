@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotdfly.R
 \name{plotdfly}
 \alias{plotdfly}
-\title{barebones dropdown maker for a data.frame (useful to base other methods on)}
+\title{barebones dropdown maker for a data.frame turned into a plot_ly 3D scatter}
 \usage{
 plotdfly(
   rd,
@@ -31,7 +31,7 @@ plotdfly(
 }\if{html}{\out{</div>}}
 }
 \description{
-barebones dropdown maker for a data.frame (useful to base other methods on)
+barebones dropdown maker for a data.frame turned into a plot_ly 3D scatter
 }
 \examples{
 if (FALSE) { 
@@ -58,7 +58,4 @@ if (FALSE) {
   plotdfly(rd, groupcols=c("cell_type","lineage"))
 }
 
-}
-\seealso{
-getPalette
 }

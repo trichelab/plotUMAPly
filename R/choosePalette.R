@@ -7,9 +7,10 @@
 #' if a user wants to generate a colorblindness-safe palette; the latter may be
 #' added to defaultPalettes or a similar data object if demand justifies this). 
 #'
-#' @param x             a factor (will be converted to one if it isn't)
+#' @param x             an integer (colors) or factor-like grouping with levels
 #' @param static        use a saved static palette if available? (TRUE) 
 #' @param shuffle       shuffle the default color palette (if static)? (FALSE)
+#' @param seed          if static == FALSE, seed colors to use? (see Details)
 #' @param ...           params passed to Polychrome::createPalette if !static
 #' 
 #' @details
@@ -24,42 +25,47 @@
 #' Please see Polychrome::createPalette for more information on these. 
 #'
 #' The default palettes were created as follows: 
-#' 
-#'   library(Polychrome)
-#'   seed <- c("#ff0000", "#0000ff", "#00ff00") 
-#'   newpal <- function(x) createPalette(x, seedcolors=seed, prefix="color")
-#'   defaultPalettes <- lapply(1:100, newpal)
-#' 
-#' These are the same palettes available via
 #'
-#'   data("defaultPalettes", package="plotUMAPly")
+#' library(parallel)
+#' library(Polychrome)
+#' sz <- seq_len(100)
+#' names(sz) <- paste0("paletteOfSize", sz)
+#' defaultPalettes <- mclapply(sz, choosePalette, static=FALSE, prefix="color")
+#' 
+#' Even when parallelized, this takes a few minutes, since Polychrome samples a 
+#' large space of colors for each size. These are the same palettes available by
+#'
+#'   data("defaultPalettes")
 #'
 #' which also happens to be where choosePalette retrieves cached palettes from.
 #'
+#' @seealso Polychrome::createPalette
 #' @seealso getPalette
 #'
 #' @export
 #'
-choosePalette <- function(x, static=TRUE, shuffle=FALSE, ...) { 
+choosePalette <- function(x, static=TRUE, shuffle=FALSE, seed=c("#ff0000", "#0000ff", "#00ff00"), ...) { 
 
-  x <- factor(x) 
-  K <- nlevels(x)
-
-  if (static & K <= 100) {
-
-    pal <- getPalette(K, shuffle=shuffle, ...) 
-   
-  } else { 
-
-    message("Loading Polychrome...")
-    require(Polychrome)
-    message("Generating a new palette with ", K, " colors...")
-    pal <- createPalette(K, ...) 
-    if (shuffle) pal <- pal[sample(seq_along(pal), K)] 
-
+  if (length(x) == 1) {
+    hasNames <- FALSE
+    K <- as(x, "integer")
+  } else {
+    hasNames <- TRUE
+    K <- nlevels(factor(x))
   }
 
-  names(pal) <- levels(x)
+  if (static & K <= 100) {
+    pal <- getPalette(K, ...) 
+  } else { 
+    set.seed(K)
+    message("Loading Polychrome. ", appendLF=FALSE)
+    require(Polychrome)
+    message("Generating a palette with ",K," color", ifelse(K > 1, "s", ""),".")
+    pal <- createPalette(K, seed=seed, ...)[seq_len(K)] # weird bug for K < 4
+  }
+
+  if (shuffle) pal <- pal[sample(seq_along(pal), K)] 
+  if (hasNames) names(pal) <- levels(x)
   return(pal)
 
 }

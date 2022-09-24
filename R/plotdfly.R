@@ -1,4 +1,4 @@
-#' barebones dropdown maker for a data.frame (useful to base other methods on)
+#' barebones dropdown maker for a data.frame turned into a plot_ly 3D scatter
 #' 
 #' @param   rd          an R data.frame
 #' @param   dimcols     the dimension columns in the data frame (if NULL, 1:3)
@@ -8,8 +8,6 @@
 #' @param   ...         parameters to pass to getPalette()
 #'
 #' @return              a plot_ly object
-#' 
-#' @seealso getPalette 
 #' 
 #' @examples
 #' if (FALSE) { 
@@ -60,6 +58,7 @@ plotdfly <- function(rd,
 
   # generate as many palettes as necessary (static=TRUE may be desirable)
   pals <- lapply(color_by_list, function(i) choosePalette(rd[,i], shuffle=TRUE))
+  pal <- mergePalettes(pals)
 
   # an empty plot
   p <- plot_ly()
@@ -89,10 +88,6 @@ plotdfly <- function(rd,
 
     # increment the trace counter 
     vis_start_counter <- vis_start_counter + nlevels(rd$group)
-    
-    # add a palette of appropriate cardinality
-    pal <- pals[[grouping]]
-    names(pal) <- levels(rd$group)
     
     # build dropdown item
     dropdown_entry <- list(
