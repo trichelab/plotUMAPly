@@ -52,7 +52,7 @@ if (FALSE) {
   covs$lineage <- lineages[covs$cell_type]
   rownames(covs) <- colnames(pbmc3k)
   embeddings <- pbmc3k@reductions$nmf@cell.embeddings
-  stopifnot(identical(rownames(covs), rownames(embeddings))
+  stopifnot(identical(rownames(covs), rownames(embeddings)))
   subembed <- embeddings[, c("NMF_11", "NMF_7", "NMF_15")]
   rd <- cbind(subembed, covs)
   plotdfly(rd, groupcols=c("cell_type","lineage"))
