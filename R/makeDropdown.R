@@ -32,7 +32,7 @@ makeDropdown <- function(cols, shared) {
     vis[] <- FALSE
     group <- factor(shared$data()[[column]])
     vis[seq(vis_start, vis_start + nlevels(group) - 1)] <- TRUE
-    vis_start <- vis_start_counter + nlevels(group)
+    vis_start <- vis_start + nlevels(group)
     
     # add this new entry to dropdown_list 
     dropdown_list <- append(dropdown_list, 
