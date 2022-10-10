@@ -57,8 +57,7 @@ plotdfly <- function(rd, dimcols = NULL, groupcols = c("group"), ...) {
   p <- addTraces(groupcols, dimcols=dimcols, shared=shared)
 
   # suppress if only one grouping
-  if (length(dropdown) == 1) layout(p, scene = axes)
-  browser("Time to inspect the updatemenus object!")
-  layout(p, updatemenus = updatemenus, scene = axes)
+  if (length(groupcols) == 1) layout(p, scene = axes)
+  else layout(p, updatemenus = updatemenus, scene = axes)
 
 }
