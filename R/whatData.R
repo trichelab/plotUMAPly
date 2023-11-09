@@ -11,7 +11,7 @@
 #' @return          a string with the (sanity checked) data type, or an error
 #'
 #' @export
-whatData <- function(x, use="UMAP", color_by="group", label_by=NULL, dims=1:3) {
+whatData <- function(x, use="UMAP", color_by="group", label_by=NULL, dims=1:2) {
 
   params <- list() 
   columns <- union(color_by, label_by)
@@ -22,8 +22,8 @@ whatData <- function(x, use="UMAP", color_by="group", label_by=NULL, dims=1:3) {
     params$what <- "data.frame"
     eligible <- setdiff(colnames(x), colnames(x)[dims])
     stopifnot(all(columns %in% eligible))
-    params$rd <- x[, dims]
-    params$cd <- x[, columns]
+    params$rd <- x[, dims, drop=FALSE]
+    params$cd <- x[, columns, drop=FALSE]
 
   } else if (is(x, "Seurat")) {
 
@@ -32,7 +32,7 @@ whatData <- function(x, use="UMAP", color_by="group", label_by=NULL, dims=1:3) {
     stopifnot(ncol(x@reductions[[use]]@cell_embeddings) >= length(dims))
     params$rd <- as.data.frame(x@reductions[[use]]@cell_embeddings[, dims])
     stopifnot(all(columns %in% colnames(x@meta.data)))
-    params$cd <- as.data.frame(x@meta.data[, columns])
+    params$cd <- as.data.frame(x@meta.data[, columns, drop=FALSE])
 
   } else if (is(x, "SingleCellExperiment")) {
  
@@ -40,7 +40,7 @@ whatData <- function(x, use="UMAP", color_by="group", label_by=NULL, dims=1:3) {
     stopifnot(use %in% reducedDimNames(x))
     params$rd <- as.data.frame(reducedDim(x, use)[, dims])
     stopifnot(all(columns %in% names(colData(x))))
-    params$cd <- as.data.frame(colData(x)[, columns])
+    params$cd <- as.data.frame(colData(x)[, columns, drop=FALSE])
 
   } else if (is(x, "nmf")) {
     
@@ -49,7 +49,7 @@ whatData <- function(x, use="UMAP", color_by="group", label_by=NULL, dims=1:3) {
     params$rd <- as.data.frame(t(x@h[dims, ]))
     if(!"colData" %in% names(x@misc)) stop("nmf objects need @misc$colData")
     stopifnot(all(columns %in% colnames(x@misc$colData)))
-    params$cd <- as.data.frame(x@misc$colData[, columns])
+    params$cd <- as.data.frame(x@misc$colData[, columns, drop=FALSE])
 
   } else { 
 
