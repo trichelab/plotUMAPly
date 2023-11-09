@@ -4,7 +4,7 @@
 \alias{grabData}
 \title{Let plotUMAPly handle Seurat, SingleCellExperiment, or data.frame objects}
 \usage{
-grabData(x, use = "UMAP", color_by = "study", label_by = NULL, dims = 1:6)
+grabData(x, use = "UMAP", color_by = "group", label_by = NULL, dims = 1:6)
 }
 \arguments{
 \item{x}{an object (a data.frame, RcppML::nmf, SCE, or Seurat)}

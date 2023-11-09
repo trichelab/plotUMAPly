@@ -11,7 +11,7 @@
 #' @return          a string with the (sanity checked) data type, or an error
 #'
 #' @export
-whatData <- function(x, use="UMAP", color_by="study", label_by=NULL, dims=1:3) {
+whatData <- function(x, use="UMAP", color_by="group", label_by=NULL, dims=1:3) {
 
   params <- list() 
   columns <- union(color_by, label_by)
@@ -37,11 +37,10 @@ whatData <- function(x, use="UMAP", color_by="study", label_by=NULL, dims=1:3) {
   } else if (is(x, "SingleCellExperiment")) {
  
     params$what <- "SingleCellExperiment"
-    stopifnot(use %in% colnames(x@int_colData$reducedDims))
-    stopifnot(ncol(x@int_colData$reducedDims[[use]]) >= length(dims))
-    params$rd <- as.data.frame(x@int_colData$reducedDims[["use"]][, dims])
-    stopifnot(all(columns %in% colnames(x@colData)))
-    params$cd <- as.data.frame(x@colData[, columns])
+    stopifnot(use %in% reducedDimNames(x))
+    params$rd <- as.data.frame(reducedDim(x, use)[, dims])
+    stopifnot(all(columns %in% names(colData(x))))
+    params$cd <- as.data.frame(colData(x)[, columns])
 
   } else if (is(x, "nmf")) {
     

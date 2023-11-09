@@ -4,7 +4,7 @@
 \alias{whatData}
 \title{determine what kind of object grabData should expect to process and how}
 \usage{
-whatData(x, use = "UMAP", color_by = "study", label_by = NULL, dims = 1:3)
+whatData(x, use = "UMAP", color_by = "group", label_by = NULL, dims = 1:3)
 }
 \arguments{
 \item{x}{an object (a data.frame, matrix, SCE, or Seurat)}

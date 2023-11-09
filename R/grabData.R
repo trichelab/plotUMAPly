@@ -9,7 +9,7 @@
 #' @return          a data.frame
 #' 
 #' @export
-grabData <- function(x, use="UMAP", color_by="study", label_by=NULL, dims=1:6) {
+grabData <- function(x, use="UMAP", color_by="group", label_by=NULL, dims=1:6) {
 
   dat <- whatData(x, use=use, color_by=color_by, label_by=label_by, dims=dims)
 
@@ -27,8 +27,9 @@ grabData <- function(x, use="UMAP", color_by="study", label_by=NULL, dims=1:6) {
 
   }
 
-  rd$label <- paste0(rownames(rd), "(", rd[, color_by[1]], ")")
-  if (!is.null(label_by)) rd$label <- factor(cd[, label_by])
+  if (names(rd)[1] == "V1") names(rd) <- c("X", "Y", color_by)
+  rd$label <- paste0(rownames(rd), "(", rd[, color_by], ")")
+  if (!is.null(label_by)) rd$label <- factor(rd[, label_by])
   return(rd)
 
 }
