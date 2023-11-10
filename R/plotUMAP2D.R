@@ -23,30 +23,32 @@ plotUMAP2D <- function(x,
   m <- length(dims)
   g <- length(color_by)
   rd <- grabData(x, use=use, color_by=color_by, dims=1:2)
-  names(rd) <- c("X", "Y", "group")
   rd[, "group"] <- factor(rd[, "group"])
   if (is.null(rd$label)) rd$label <- paste0(rownames(x), " (", rd$group, ")")
   pal <- choosePalette(rd$group, static=static, shuffle=shuffle)
   names(pal) <- levels(rd$group)
-  p <- plot_ly(rd, 
-               text = ~ label, 
-               hoverinfo = "text", 
-               type = "scatter",
-               color = ~ group, 
-               colors = pal)
-  p <- layout(add_markers( p,
-                           x = ~X, 
-                           y = ~Y, 
-                           ...),
-              yaxis = list(title = "UMAP1", 
-                           zeroline = FALSE,
-                           showgrid = FALSE,
-                           showticklabels = FALSE),
-              xaxis = list(title = "UMAP2", 
-                           zeroline = FALSE,
-                           showgrid = FALSE,
-                           showticklabels = FALSE)
-  )
-  config(p, displayModeBar = FALSE)
+
+  # render
+  config(layout(add_markers(plot_ly(rd, 
+                                    text = ~ label, 
+                                    hoverinfo = "text", 
+                                    type = "scatter",
+                                    color = ~ group, 
+                                    colors = pal), 
+                            x = ~X, 
+                            y = ~Y, 
+                            ...),
+
+                yaxis = list(title = "UMAP1", 
+                             zeroline = FALSE,
+                             showgrid = FALSE,
+                             showticklabels = FALSE),
+
+                xaxis = list(title = "UMAP2", 
+                             zeroline = FALSE,
+                             showgrid = FALSE,
+                             showticklabels = FALSE)), 
+         
+         displayModeBar = FALSE)
 
 }

@@ -27,8 +27,10 @@ grabData <- function(x, use="UMAP", color_by="group", label_by=NULL, dims=1:2) {
 
   }
 
-  if (names(rd)[1] == "V1") names(rd)[1:3] <- c("X", "Y", color_by)
-  rd$label <- paste0(rownames(rd), "(", rd[, color_by], ")")
+  if (names(rd)[1] != "X") {
+    names(rd)[dims] <- c("X", "Y", "Z", "W", "V", "U")[dims]
+  }
+  rd$label <- paste0(rownames(rd), " (", rd[, color_by], ")")
   if (!is.null(label_by)) rd$label <- factor(rd[, label_by])
   return(rd)
 
