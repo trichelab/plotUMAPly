@@ -25,7 +25,7 @@ plotUMAP2D <- function(x,
   rd <- grabData(x, use=use, color_by=color_by, dims=1:2)
   names(rd) <- c("X", "Y", "group")
   rd[, "group"] <- factor(rd[, "group"])
-  rd$label <- paste0(rownames(x), " (", rd$group, ")")
+  if (is.null(rd$label)) rd$label <- paste0(rownames(x), " (", rd$group, ")")
   pal <- choosePalette(rd$group, static=static, shuffle=shuffle)
   names(pal) <- levels(rd$group)
   p <- plot_ly(rd, 
