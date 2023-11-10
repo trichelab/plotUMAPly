@@ -8,7 +8,6 @@ plotUMAP2D(
   x,
   use = "UMAP",
   color_by = "group",
-  label_by = NULL,
   static = TRUE,
   shuffle = FALSE,
   ...
@@ -20,8 +19,6 @@ plotUMAP2D(
 \item{use}{name of dimred to use, if x is not a df or matrix ("UMAP")}
 
 \item{color_by}{column name of metadata (or x itself) to color by ("group")}
-
-\item{label_by}{column name of metadata (or x itself) to label by ("group")}
 
 \item{static}{use cached palette(s) of the appropriate size? (TRUE)}
 

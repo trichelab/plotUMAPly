@@ -3,7 +3,6 @@
 #' @param x         an object (a data.frame, matrix, SCE, or Seurat) 
 #' @param use       name of dimred to use, if x is not a df or matrix ("UMAP")
 #' @param color_by  column name of metadata (or x itself) to color by ("group")
-#' @param label_by  column name of metadata (or x itself) to label by ("group")
 #' @param static    use cached palette(s) of the appropriate size? (TRUE)
 #' @param shuffle   shuffle the colors of the cached palette(s)? (FALSE) 
 #' @param ...       other stuff passed to plotly
@@ -16,7 +15,6 @@
 plotUMAP2D <- function(x, 
                        use="UMAP", 
                        color_by="group", 
-                       label_by=NULL,
                        static=TRUE, 
                        shuffle=FALSE, 
                        ...) { 
@@ -24,11 +22,10 @@ plotUMAP2D <- function(x,
   n <- nrow(x)  
   m <- length(dims)
   g <- length(color_by)
-  rd <- grabData(x, use=use, color_by=color_by, label_by=label_by, dims=1:2)
+  rd <- grabData(x, use=use, color_by=color_by, dims=1:2)
   names(rd) <- c("X", "Y", "group")
   rd[, "group"] <- factor(rd[, "group"])
   rd$label <- paste0(rownames(x), " (", rd$group, ")")
-  if (!is.null(label_by)) rd$label <- factor(rd[, label_by])
   pal <- choosePalette(rd$group, static=static, shuffle=shuffle)
   names(pal) <- levels(rd$group)
   p <- plot_ly(rd, 
