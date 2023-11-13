@@ -23,6 +23,9 @@ plotUMAP2D <- function(x,
   m <- length(dims)
   g <- length(color_by)
   rd <- grabData(x, use=use, color_by=color_by, dims=1:2)
+  if (!"group" %in% names(rd)) { 
+    names(rd) <- sub(paste0("^", color_by, "$"), "group", names(rd))
+  }
   rd[, "group"] <- factor(rd[, "group"])
   if (is.null(rd$label)) rd$label <- paste0(rownames(x), " (", rd$group, ")")
   pal <- choosePalette(rd$group, static=static, shuffle=shuffle)
